@@ -1,0 +1,61 @@
+Ticket de desarrollo web
+
+Título: Implementar inicio de sesión con correo institucional de Universidad de La Sabana y roles de usuario
+
+Tipo: Backend
+
+Prioridad: Alta
+
+Descripción
+
+Se requiere desarrollar en Express un endpoint de autenticación que permita el acceso únicamente a usuarios con correo institucional de la Universidad de La Sabana.
+El sistema debe validar credenciales, identificar el rol del usuario (admin, vendedor o comprador) y devolver dicha información al cliente.
+
+Historia de usuario
+
+Como usuario institucional, quiero iniciar sesión con mi correo universitario y contraseña, para acceder al sistema según mi rol asignado.
+
+Criterios de aceptación
+El sistema debe exponer POST /api/auth/login.
+Debe recibir email y password.
+El correo debe pertenecer al dominio institucional.
+Si el dominio no es válido, responder 403 Forbidden.
+Si faltan campos, responder 400.
+Si credenciales correctas, responder 200.
+La respuesta exitosa debe incluir el rol.
+Roles válidos:
+admin
+vendedor
+comprador
+Contrato de integración
+Endpoint
+POST /api/auth/login
+Headers
+Content-Type: application/json
+Request body
+{
+  "email": "jersson@unisabana.edu.co",
+  "password": "1234"
+}
+Respuesta exitosa Admin — 200
+{
+  "message": "Login exitoso",
+  "user": {
+    "id": 1,
+    "nombre": "Enriqueto",
+    "email": "jersson@unisabana.edu.co",
+    "role": "admin"
+  }
+}
+Respuesta dominio inválido — 403
+{
+  "message": "Solo se permite correo institucional de Universidad de La Sabana"
+}
+Respuesta faltan campos — 400
+{
+  "message": "Email y password obligatorios"
+}
+Respuesta credenciales inválidas — 401
+{
+  "message": "Credenciales inválidas"
+}
